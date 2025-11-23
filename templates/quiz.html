@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF--8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="theme-matrix">
+    <div class="page-container">
+        <button id="theme-toggle">✨</button>
+        <h1 id="quiz-title"></h1>
+
+        <div class="quiz-main-content">
+            <div id="pagination-container"></div>
+            <div class="top-bar">
+                <div id="section-name">Loading Section...</div>
+                <div class="top-bar-right">
+                    <span id="question-counter">Answered: 0 / 0</span>
+                </div>
+            </div>
+            <div class="question-card">
+                <h2 id="question-text">Loading question...</h2>
+            </div>
+            <div class="options-container"></div>
+        </div>
+
+        <div id="finish-prompt"></div>
+    </div>
+
+    <div id="category-nav">
+        <span>Switch Category:</span>
+        <a href="/quiz?category=SSC">SSC</a>
+        <a href="/quiz?category=BANK">BANK</a>
+        <a href="/quiz?category=RRB">RRB</a>
+    </div>
+
+    <div id="toast-container"></div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

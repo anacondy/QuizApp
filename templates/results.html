@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="theme-matrix"> <div id="results-container">
+        <button id="theme-toggle">✨</button> <div id="results-summary">
+            <h1 id="quiz-title">Quiz Complete!</h1>
+            <h2 id="final-score">Your final score is being calculated...</h2>
+            <h3 id="accuracy-display"></h3>
+        </div>
+
+        <div id="results-details">
+            </div>
+
+        <a href="/" id="play-again-btn">Play Again</a>
+    </div>
+
+    <script>
+        // Theme Toggle Logic for Results Page
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const currentTheme = localStorage.getItem('quizTheme') || 'matrix';
+            document.body.className = `theme-${currentTheme}`;
+            themeToggleBtn.textContent = currentTheme === 'matrix' ? '✨' : '💻'; // Icon changes based on theme
+
+            themeToggleBtn.addEventListener('click', () => {
+                let newTheme = document.body.classList.contains('theme-matrix') ? 'glass' : 'matrix';
+                document.body.className = `theme-${newTheme}`;
+                localStorage.setItem('quizTheme', newTheme);
+                themeToggleBtn.textContent = newTheme === 'matrix' ? '✨' : '💻';
+            });
+            // End Theme Toggle Logic
+
+            const results = JSON.parse(sessionStorage.getItem('quizResults'));
+            if (results) {
+                const finalScoreEl = document.getElementById('final-score');
+                const accuracyEl = document.getElementById('accuracy-display');
+                const resultsDetailsEl = document.getElementById('results-details');
+
+                finalScoreEl.textContent = `Your Score: ${results.score} / ${results.totalQuestions}`;
+
+                const accuracy = results.totalQuestions > 0 ? (results.score / results.totalQuestions) * 100 : 0;
+                accuracyEl.textContent = `Accuracy: ${accuracy.toFixed(1)}%`;
+
+                let reviewHtml = '';
+                results.review.forEach((item, index) => {
+                    const isCorrect = item.isCorrect;
+                    const questionClass = isCorrect ? 'correct-q' : 'incorrect-q';
+                    const userAnswerHtml = item.userAnswer ?
+                        `<p class="${isCorrect ? '' : 'wrong-answer'}">Your answer: ${item.userAnswer}</p>` :
+                        '<p class="wrong-answer">You did not answer this question.</p>'; // Handle unanswered
+
+                    reviewHtml += `
+                        <div class="result-card ${isCorrect ? 'correct' : 'incorrect'}">
+                            <h4 class="${questionClass}">Q${index + 1}: ${item.question}</h4>
+                            ${userAnswerHtml}
+                            <p>Correct answer: ${item.correctAnswer}</p>
+                        </div>
+                    `;
+                });
+                resultsDetailsEl.innerHTML = reviewHtml;
+            }
+        });
+    </script>
+</body>
+</html>

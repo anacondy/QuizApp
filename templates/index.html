@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="question-card">
+            <h2 id="question-text">Choose Your Exam Category</h2>
+        </div>
+        <div class="options-container">
+            <a href="/quiz?category=SSC"><button>SSC (Staff Selection Commission)</button></a>
+            <a href="/quiz?category=BANK"><button>BANK (Banking Sector)</button></a>
+            <a href="/quiz?category=RRB"><button>RRB (Railway Recruitment Board)</button></a>
+        </div>
+    </div>
+</body>
+</html>
+
